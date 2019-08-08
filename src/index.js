@@ -18,7 +18,7 @@ ReactDOM.render(
     <div className="container">
       <Router>
         <Route exact path="/" component={Notes} />
-        <Route path={'/new'} component={() => (<div>new</div>)} />
+        <Route path={'/new'} component={Detail} />
         <Route path={'/detail/:id'} component={Detail} />
         {/*<Route path={'/*'} component={() => (<h2>Not found</h2>)}/>*/}
       </Router>
