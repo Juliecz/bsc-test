@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Pane, Text, Card, Button, Icon } from 'evergreen-ui';
+import { Text, Card, Button } from 'evergreen-ui';
+
+import './style.less';
 
 const Note = ({ id, title, onDelete }) => {
   const onDeleteEvent = () => onDelete(id);
@@ -12,26 +14,29 @@ const Note = ({ id, title, onDelete }) => {
       marginY={25}
       flex={1}
       padding={25}
+      className="note-wrapper"
     >
-      <Text>{title}</Text>
-    
+      <Text className="content">{title}</Text>
+  
       <div>
         <Link to={`/detail/${id}`}>
           <Button
             height={35}
             marginX={3}
-            iconBefore='edit'
+            iconBefore="edit"
+            className="edit"
           >
             Edit
           </Button>
         </Link>
+        <Button
+          marginRight={12}
+          iconBefore="trash"
+          intent="danger"
+          onClick={onDeleteEvent}
+          className="delete"
+        >Delete</Button>
       </div>
-      <Button
-        marginRight={12}
-        iconBefore="trash"
-        intent="danger"
-        onClick={onDeleteEvent}
-      >Delete</Button>
     </Card>
   );
 };

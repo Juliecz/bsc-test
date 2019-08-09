@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Note from '../Note';
 import { fetchNotes, onDeleteNote } from '../../model/actions';
-import {Pane, Button, Dialog} from "evergreen-ui";
+import { Pane, Button, Dialog, Spinner, Heading } from "evergreen-ui";
+
+import './style.less';
 
 class Notes extends React.Component {
   constructor(props) {
@@ -25,36 +27,45 @@ class Notes extends React.Component {
     this.setState({ isModalShow: true });
 
   render() {
-    const { notes, onDeleteNote } = this.props;
+    const { notes, state, onDeleteNote } = this.props;
     return (
       <div className="notes">
-        Notes
-        <Pane className="notes-wrapper">
-          <Dialog
-            isShown={this.state.isModalShow}
-            title="Delete note"
-            intent="danger"
-            onCloseComplete={this.hideDeleteModal}
-            confirmLabel="Delete"
-          >
-            Do you really want to delete this note?
-          </Dialog>
-          {notes && notes.map((note) => (
-            <Note
-              {...note}
-              key={note.id}
-              onDelete={this.showDeleteModal}
-            />
-          ))}
-        </Pane>
-        <Link to={'/new'}>
-          <Button
-            height={35}
-            iconBefore="add"
-          >
-            New note
-          </Button>
-        </Link>
+        <Heading
+          size={900}
+          marginY="20"
+        > Notes </Heading>
+        {state === 'loading'
+          ? <Spinner/>
+          : <>
+            <Pane className="notes-wrapper">
+              <Dialog
+                isShown={this.state.isModalShow}
+                title="Delete note"
+                intent="danger"
+                onCloseComplete={this.hideDeleteModal}
+                confirmLabel="Delete"
+              >
+                Do you really want to delete this note?
+              </Dialog>
+              {notes && notes.map((note) => (
+                <Note
+                  {...note}
+                  key={note.id}
+                  onDelete={this.showDeleteModal}
+                />
+              ))}
+            </Pane>
+            <div className="footer-buttons">
+              <Link to={'/new'}>
+                <Button
+                  height={35}
+                  iconBefore="add"
+                >
+                  New note
+                </Button>
+              </Link>
+            </div>
+          </>}
       </div>
     )
   }
@@ -62,6 +73,7 @@ class Notes extends React.Component {
 
 const mapStateToProps = (state) => ({
   notes: state.app.notes,
+  state: state.app.state,
 });
 
 export default connect(mapStateToProps, {

@@ -52,29 +52,34 @@ const Detail = ({
           iconBefore="arrow-left"
         > Back </Button>
       </Link>
-      <Heading
-        size={600}
-        marginTop="default"
-      > Note {note.id} </Heading>
-
-      <Pane>
-        <Textarea
-          id="textarea"
-          placeholder="Textarea"
-          value={note.title}
-          onChange={changeNoteEvent}
-        />
-        {fetchState === 'loading'
-          ? <Spinner/>
-          : <Button
-            height={35}
-            iconBefore="tick"
-            intent="success"
-            onClick={onSubmit}
-          >
-            {isNew ? 'Create' : 'Save'}
-          </Button>}
-      </Pane>
+      {fetchState === 'loading'
+        ? <Spinner/>
+        : <>
+          <Heading
+            size={900}
+            marginY={25}
+          > Note {note.id} </Heading>
+    
+          <Pane>
+            <Textarea
+              id="textarea"
+              placeholder="Textarea"
+              value={note.title}
+              onChange={changeNoteEvent}
+            />
+            <div className="footer-buttons">
+              <Button
+                height={35}
+                iconBefore="tick"
+                intent="success"
+                onClick={onSubmit}
+                marginY={20}
+              >
+                {isNew ? 'Create' : 'Save'}
+              </Button>
+            </div>
+          </Pane>
+        </>}
     </div>
   );
 };
