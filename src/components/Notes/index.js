@@ -14,20 +14,29 @@ class Notes extends React.Component {
 
     this.state = {
       isModalShow: false,
+      noteId: null,
     }
   }
   componentDidMount() {
     this.props.fetchNotes();
   }
   
-  hideDeleteModal = () =>
-    this.setState({ isModalShow: false });
+  hideDeleteModal = () => {
+    this.props.onDeleteNote(this.state.noteId);
+    this.setState({
+      isModalShow: false,
+      noteId: null,
+    });
+  };
 
-  showDeleteModal = () =>
-    this.setState({ isModalShow: true });
+  showDeleteModal = (noteId) =>
+    this.setState({
+      isModalShow: true,
+      noteId,
+    });
 
   render() {
-    const { notes, state, onDeleteNote } = this.props;
+    const { notes, state } = this.props;
     return (
       <div className="notes">
         <Heading
@@ -51,7 +60,7 @@ class Notes extends React.Component {
                 <Note
                   {...note}
                   key={note.id}
-                  onDelete={this.showDeleteModal}
+                  onDelete={() => this.showDeleteModal(note.id)}
                 />
               ))}
             </Pane>
